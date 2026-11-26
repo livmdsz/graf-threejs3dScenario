@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101426">
+  <meta name="description" content="Portal académico de proyectos de Graficación del Instituto Tecnológico de Pachuca.">
+  <title>Laboratorio de Graficación | ITP</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23101426'/%3E%3Cpath d='M13 45 27 17l9 17 6-10 9 21H13Z' fill='%237c8cff'/%3E%3Ccircle cx='46' cy='16' r='5' fill='%235de1d0'/%3E%3C/svg%3E">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1120;
+      --surface: rgba(24, 31, 54, .78);
+      --surface-2: #1b2340;
+      --text: #f4f6ff;
+      --muted: #aab3cc;
+      --accent: #8795ff;
+      --mint: #5de1d0;
+      --line: rgba(255, 255, 255, .10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 12% 10%, rgba(91, 110, 255, .20), transparent 35%),
+        radial-gradient(ellipse at 88% 35%, rgba(45, 205, 190, .12), transparent 32%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    .navbar {
+      background: rgba(13, 17, 32, .78);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: #101426;
+      background: linear-gradient(135deg, var(--mint), var(--accent));
+      font-size: 1.15rem;
+    }
+
+    .nav-label {
+      color: var(--muted);
+      font-size: .9rem;
+      letter-spacing: .04em;
+    }
+
+    .hero {
+      padding: 5.5rem 0 3.7rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      color: var(--mint);
+      border: 1px solid rgba(93, 225, 208, .25);
+      background: rgba(93, 225, 208, .07);
+      padding: .48rem .85rem;
+      border-radius: 50rem;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      line-height: 1.04;
+      font-weight: 800;
+      letter-spacing: -.055em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fff 10%, #aeb8ff 58%, #72e6d6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .section-kicker {
+      color: var(--mint);
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .project-card {
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(31, 41, 72, .92), rgba(19, 25, 44, .92));
+      box-shadow: 0 18px 55px rgba(0, 0, 0, .18);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(135, 149, 255, .55);
+      box-shadow: 0 24px 65px rgba(0, 0, 0, .3);
+    }
+
+    .project-art {
+      min-height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: radial-gradient(circle at 50% 45%, rgba(135, 149, 255, .25), transparent 48%), #171f39;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .project-art::before,
+    .project-art::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, .10);
+      border-radius: 50%;
+      width: 230px;
+      height: 230px;
+    }
+
+    .project-art::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    .art-icon {
+      z-index: 1;
+      width: 86px;
+      height: 86px;
+      display: grid;
+      place-items: center;
+      border-radius: 25px;
+      font-size: 2.5rem;
+      color: #11172a;
+      background: linear-gradient(135deg, var(--mint), var(--accent));
+      box-shadow: 0 12px 40px rgba(93, 225, 208, .2);
+    }
+
+    .project-number {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      z-index: 2;
+      color: rgba(255, 255, 255, .55);
+      font-size: .76rem;
+      letter-spacing: .12em;
+      font-weight: 800;
+    }
+
+    .project-body {
+      padding: 1.65rem;
+    }
+
+    .project-body h3 {
+      font-weight: 750;
+      letter-spacing: -.025em;
+    }
+
+    .project-body p {
+      color: var(--muted);
+      line-height: 1.7;
+      min-height: 78px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: .35rem .65rem;
+      margin: .15rem .25rem .15rem 0;
+      border: 1px solid var(--line);
+      border-radius: 50rem;
+      color: #cbd3ec;
+      font-size: .72rem;
+    }
+
+    .btn-project {
+      border: 0;
+      color: #11172a;
+      background: linear-gradient(100deg, var(--mint), #a6b0ff);
+      font-weight: 750;
+      border-radius: 12px;
+      padding: .78rem 1rem;
+    }
+
+    .btn-project:hover {
+      color: #11172a;
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .info-strip {
+      border: 1px solid var(--line);
+      background: rgba(24, 31, 54, .55);
+      border-radius: 18px;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 5rem;
+      border-top: 1px solid var(--line);
+      background: rgba(9, 13, 25, .68);
+    }
+
+    .footer-title {
+      color: #fff;
+      font-weight: 750;
+    }
+
+    .member {
+      height: 100%;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .member-name {
+      color: #edf0ff;
+      font-weight: 650;
+    }
+
+    .member-control {
+      color: var(--muted);
+      font-size: .83rem;
+    }
+
+    .member-avatar {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(135, 149, 255, .15);
+      color: #c2caff;
+      font-weight: 800;
+    }
+
+    .footer-meta {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .date-pill {
+      color: var(--mint);
+      font-weight: 650;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--mint);
+      outline-offset: 3px;
+    }
+
+    @media (max-width:575px) {
+      .hero {
+        padding: 4rem 0 2.8rem;
+      }
+
+      .project-body p {
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#" aria-label="Inicio">
+        <span class="brand-mark"><i class="bi bi-boxes"></i></span>
+        <span>GRAF<span class="text-info">LAB</span></span>
+      </a>
+      <span class="nav-label d-none d-sm-inline">PORTAFOLIO ACADÉMICO · ITP</span>
+      <a class="btn btn-sm btn-outline-light rounded-pill px-3" href="#proyectos">Ver proyectos <i
+          class="bi bi-arrow-down-right ms-1"></i></a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-9">
+            <span class="eyebrow mb-4"><i class="bi bi-stars"></i> Tecnológico Nacional de México</span>
+            <h1 class="mb-4">Explora nuestras<br><span class="gradient-text">experiencias gráficas.</span></h1>
+            <p class="hero-copy mb-0">Un espacio para presentar proyectos interactivos desarrollados en la materia de
+              Graficación. Explora cada experiencia y descubre el trabajo detrás de cada entorno digital.</p>
+          </div>
+          <div class="col-lg-3 d-none d-lg-flex justify-content-center">
+            <div
+              style="width:190px;height:190px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(135,149,255,.28);background:radial-gradient(circle,rgba(135,149,255,.18),transparent 68%);">
+              <i class="bi bi-braces-asterisk" style="font-size:5rem;color:#9ba8ff"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proyectos" class="pb-5">
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+          <div>
+            <div class="section-kicker mb-2">Portafolio</div>
+            <h2 class="fw-bold mb-0">Proyectos disponibles</h2>
+          </div>
+          <span class="text-secondary small">02 experiencias</span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <article class="project-card">
+              <div class="project-art">
+                <span class="project-number">PROYECTO / 01</span>
+                <div class="art-icon"><i class="bi bi-music-note-beamed"></i></div>
+              </div>
+              <div class="project-body">
+                <div class="section-kicker mb-2">Animación · Interacción 3D</div>
+                <h3 class="h4 mb-3">Proyecto 3D interactivo</h3>
+                <p>Acceso al segundo proyecto web basado en Three.js. Abre la experiencia para visualizar su escena y
+                  los elementos gráficos implementados.</p>
+                <div class="mb-4">
+                  <span class="tag">Three.js</span><span class="tag">Escena 3D</span><span
+                    class="tag">WebGL</span>
+                </div>
+                <a class="btn btn-project w-100" href="./prueba-main/prueba-main/proyecto-3d.html">
+                  Abrir proyecto 3D <i class="bi bi-arrow-up-right ms-2"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <div class="col-lg-6">
+            <article class="project-card">
+              <div class="project-art"
+                style="background:radial-gradient(circle at 50% 45%,rgba(93,225,208,.18),transparent 48%),#171f39">
+                <span class="project-number">PROYECTO / 02</span>
+                <div class="art-icon" style="background:linear-gradient(135deg,#8cebdc,#8d9bff)"><i
+                    class="bi bi-box"></i></div>
+              </div>
+              <div class="project-body">
+                <div class="section-kicker mb-2">Entorno · Modelado 3D</div>
+                <h3 class="h4 mb-3">DanceCrypt</h3>
+                <p>Una experiencia de baile en un escenario 3D. Controla al personaje, selecciona movimientos y explora
+                  la pista mediante cámara interactiva.</p>
+                <div class="mb-4">
+                  <span class="tag">Three.js</span><span class="tag">Modelos FBX</span><span class="tag">Animación</span>
+                </div>
+                <a class="btn btn-project w-100"
+                  href="./graf-threejs3dScenario-main/graf-threejs3dScenario-main/examples/dancecrypt.html">
+                  Abrir DanceCrypt<i class="bi bi-arrow-up-right ms-2"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="info-strip d-flex align-items-center gap-3 p-3 p-md-4 mt-4">
+          <i class="bi bi-info-circle fs-4 text-info"></i>
+          <p class="mb-0 small">Para ejecutar correctamente las experiencias, conserva junto a cada archivo HTML sus
+            carpetas de recursos (modelos, texturas, scripts y estilos) y ábrelas mediante un servidor web local.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pt-5 pb-4">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="brand-mark"><i class="bi bi-boxes"></i></span>
+            <span class="footer-title">GRAFLAB · ITP</span>
+          </div>
+          <p class="footer-meta mb-0">Proyectos académicos de la materia de Graficación.</p>
+        </div>
+        <div class="col-lg-8">
+          <div class="footer-title mb-3">Equipo de desarrollo</div>
+          <div class="row g-2">
+            <div class="col-md-4">
+              <div class="member d-flex align-items-center gap-2">
+                <span class="member-avatar">IM</span>
+                <div>
+                  <div class="member-name">Itzel Mendoza Sánchez</div>
+                  <div class="member-control">No. de control: 26201715</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="member d-flex align-items-center gap-2">
+                <span class="member-avatar">KL</span>
+                <div>
+                  <div class="member-name">Kevin Bryan Labra Lugo</div>
+                  <div class="member-control">No. de control: 23201101</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="member d-flex align-items-center gap-2">
+                <span class="member-avatar">IV</span>
+                <div>
+                  <div class="member-name">Iker Jesús Velázquez Hernández</div>
+                  <div class="member-control">No. de control: 23200928</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr style="border-color:var(--line);opacity:1">
+      <div class="row align-items-center g-2 footer-meta">
+        <div class="col-md-7">
+          <div class="text-white fw-semibold">Tecnológico Nacional de México</div>
+          <div>Campus: Instituto Tecnológico de Pachuca · Materia: Graficación</div>
+        </div>
+        <div class="col-md-5 text-md-end">
+          <div>Fecha de consulta: <span class="date-pill" id="current-date">—</span></div>
+          <div class="mt-1">© <span id="current-year"></span> Graficación · Todos los derechos reservados.</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Se actualiza en cada carga del sitio, usando la fecha local del dispositivo.
+    const now = new Date();
+    document.getElementById('current-date').textContent = new Intl.DateTimeFormat('es-MX', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    }).format(now);
+    document.getElementById('current-year').textContent = now.getFullYear();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
